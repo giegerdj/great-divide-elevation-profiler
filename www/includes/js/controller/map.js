@@ -7,8 +7,9 @@ window.application.addController((function( $, application ){
 	// I am the controller class.
 	function Controller(){
 		// Route URL events to the controller's event handlers.
-		this.route( "/", this.currentRider );
+		this.route( "/", this.elevationMapView );
 		this.route( "/elevation", this.elevationMapView );
+  /*
 		this.route( "/riders/", this.currentRider );
 		this.route( "/riders/:id/:days", this.currentRider );
 		this.route( "/riders/edit", this.editspot);
@@ -19,6 +20,7 @@ window.application.addController((function( $, application ){
 		this.route( "/riders/delete", this.deleteSpot );
 		this.route( "/riders/settings", this.settings );
 		this.route( "/riders/reset", this.resetPassword );
+		*/
 		this.route( "/about", this.about );
 		
 		// Set default properties.
