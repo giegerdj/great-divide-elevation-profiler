@@ -1,1 +1,3 @@
 includes/php/config.php
+www/min/tmp/*
+!www/min/tmp/.empty
