@@ -1,14 +1,8 @@
 <?php
-if(!isset($_SERVER['HTTP_HOST']))
-{
-	require_once('/home/d_gieger/esrgd-includes/php/config.php');
-	require_once('/home/d_gieger/esrgd-includes/php/db_connect.php');
-}
-else
-{
-	require_once('../php/config.php');
-	require_once('../php/db_connect.php');
-}
+die();
+require_once('../includes/php/config.php');
+require_once('../includes/php/db_connect.php');
+
 
 //for each user id with a SPOT url
 //	find out the last coordinate

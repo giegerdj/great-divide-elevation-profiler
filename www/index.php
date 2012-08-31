@@ -1,5 +1,5 @@
 <?php 
-require_once('../esrgd-includes/php/config.php');
+require_once('../includes/php/config.php');
 ?>
 <!DOCTYPE HTML>
 <html>

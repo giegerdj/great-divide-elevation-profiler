@@ -1,12 +1,12 @@
 <?php 
-require_once('../esrgd-includes/php/config.php');
-require_once('../esrgd-includes/php/db_connect.php');
-require_once('../esrgd-includes/php/funct.php');
+require_once('../includes/php/config.php');
+require_once('../includes/php/db_connect.php');
+require_once('../includes/php/funct.php');
 
-require_once('../esrgd-includes/php/ElevationProfile.class.php');
+require_once('../includes/php/ElevationProfile.class.php');
 
-require_once('../esrgd-includes/php/jpgraph/jpgraph.php');
-require_once('../esrgd-includes/php/jpgraph/jpgraph_line.php');
+require_once('../includes/php/jpgraph/jpgraph.php');
+require_once('../includes/php/jpgraph/jpgraph_line.php');
 
 header('content-type: image/png');
 
