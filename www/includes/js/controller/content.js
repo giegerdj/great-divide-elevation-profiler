@@ -9,9 +9,9 @@ window.application.addController((function( $, application ){
 	// I am the controller class.
 	function Controller(){
 		// Route URL events to the controller's event handlers.
-		this.route( "/", this.riders );
+		this.route( "/", this.elevation );
 		this.route( "/elevation", this.elevation );
-		this.route( "/riders.*", this.riders );
+		this.route( "/riders.*", this.elevation );
 		this.route( "/about.*", this.about );
 
 		// Set default properties.

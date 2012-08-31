@@ -4,7 +4,7 @@
  * @package Minify
  */
 
-require_once('../../esrgd-includes/php/config.php');
+require_once('../../includes/php/config.php');
 
 /**
  * In 'debug' mode, Minify can combine files with no minification and 
@@ -13,7 +13,7 @@ require_once('../../esrgd-includes/php/config.php');
  * To allow debugging, set this option to true and add "&debug=1" to 
  * a URI. E.g. /min/?f=script1.js,script2.js&debug=1
  */
-$min_allowDebugFlag = (SERVER == DEV_SERVER);
+$min_allowDebugFlag = false;
 
 
 /**

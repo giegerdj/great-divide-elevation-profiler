@@ -15,10 +15,10 @@ require_once('../includes/php/config.php');
 	<link href="http://code.google.com/apis/maps/documentation/javascript/examples/default.css" rel="stylesheet" type="text/css" /> 
 	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAA7O0MztpGlV3Tb4EO9WnNDRS057IBlI8yJGBdnTNE5Z1m9CXhnxSTjWnhUpib8SQOcgNR2JtGLSjqLA" type="text/javascript"></script>
 
-	<link href="min/?g=css<?php echo ((SERVER == DEV_SERVER) ? '&debug=1' : ''); ?>" rel="stylesheet" type="text/css" />
-	<script src="min/?g=js-init<?php echo ((SERVER == DEV_SERVER) ? '&debug=1' : ''); ?>" type="text/javascript"></script>
+	<link href="min/?g=css" rel="stylesheet" type="text/css" />
+	<script src="min/?g=js-init" type="text/javascript"></script>
 	<!--<script src="min/?g=js" type="text/javascript"></script>-->
-<?php include('../esrgd-includes/php/static-analytics.php'); ?>
+<?php include('../includes/php/static-analytics.php'); ?>
 </head>
 <body onload="initialize();" onunload="GUnload();">
 	<div id="map_canvas"></div>
@@ -28,10 +28,12 @@ require_once('../includes/php/config.php');
 				Eat. Sleep. Ride.<br />Great Divide.
 			</h1>
 			<ul id="site-navigation">
+    <!--
 				<li>
 					<a href="#/riders" rel="riders" class="nav-item">Current Riders</a>
 					<div id="riders-nav" class="hide"></div>
 				</li>
+   -->
 				<li>
 					<a href="#/elevation" rel="elevation" class="nav-item">Elevation</a>
 					<div id="elevation-nav" class="hide">
@@ -91,6 +93,7 @@ require_once('../includes/php/config.php');
 						<div class="clear"></div>
 					</div>	
 				</li>
+    <!--
 				<li class="primary-content-stage" rel="add-spot">
 					<div id="content-container">
 						<div id="content-main">
@@ -340,6 +343,7 @@ require_once('../includes/php/config.php');
 						</div>
 					</div>
 				</li>
+    -->
 			</ul>
 			<!-- END: content-container -->
 		</div>
