@@ -42,7 +42,8 @@ function initialize() {
   map.enableScrollWheelZoom();
   
   var zoom = new GLargeMapControl();
-  var c = new GControlPosition(G_ANCHOR_TOP_RIGHT);
+  var c = new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(10,50));
+  
   map.addControl(zoom,c);
   
   map.removeMapType(G_HYBRID_MAP);
