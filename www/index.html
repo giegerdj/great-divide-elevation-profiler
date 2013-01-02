@@ -18,6 +18,7 @@
     <script src="https://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAA7O0MztpGlV3Tb4EO9WnNDRS057IBlI8yJGBdnTNE5Z1m9CXhnxSTjWnhUpib8SQOcgNR2JtGLSjqLA" type="text/javascript"></script>
     
     <script src="/resources/js/map.js" type="text/javascript"></script>
+    <script src="/resources/js/snaptoroute.js" type="text/javascript"></script>
     <script src="/resources/js/scripts.js" type="text/javascript"></script>
     
     <!--[if lt IE 9]>
@@ -26,31 +27,50 @@
   </head>
 
   <body onload="initialize();" onunload="GUnload();">
-    
-    <div class="navbar navbar-inverse navbar-fixed-top" id="title-bar">
+    <div class="navbar navbar-fixed-top" id="title-bar">
       <div class="navbar-inner">
         <div class="container-fluid">
-          <a class="brand" href="/">Great Divide Elevation Profiler</a>
-          <!--
+          <a class="brand" href="/"><strong>Great Divide Elevation Profiler</strong></a>
           <ul class="nav" style="float:right;">
-            <li><a href="#about">About</a></li>
+            <li><a href="#about" class="rightmost">About</a></li>
           </ul>
-          -->
         </div>
       </div>
-    </div>
+    </div><!-- end navbar -->
     <div id="map_canvas"></div>
-    <div id="stat-container" class="closed">
-      <div class="toggle"></div>
-      <div class="open">
-        show stats here
+    <div id="stat-container">
+      <div class="toggle">
+        <i class="icon-chevron-up"></i>
       </div>
-    </div>
-    <div id="profile-container" class="closed">
-      <div class="toggle"></div>
+      <div class="open">
+        <div id="distance-container">
+          <h4>Miles <span id="start-mile">0</span> to <span id="end-mile">2,732</span></h4>
+          <p>
+            <strong>Distance:</strong> <span id="distance">2,732</span> mi<br />
+            <strong>Ascent:</strong> <span id="ascent">211,838</span> ft<br />
+            <strong>Descent:</strong> <span id="descent">211,824</span> ft<br />
+            <strong>Net:</strong> <span id="net-elevation">14</span> ft
+          </p>
+        </div>
+        <div id="direction-container">
+          <h4>Direction</h4>
+          <label>
+            <input type="radio" name="direction" id="sobo" checked="checked"> North to South
+          </label>
+          <label>
+            <input type="radio" name="direction" id="nobo"> South to North
+          </label>
+        </div>
+        <div style="clear:both;"></div>
+      </div>
+    </div><!-- end stat-container -->
+    <div id="profile-container">
+      <div class="toggle">
+        <i class="icon-chevron-down"></i>
+      </div>
       <div class="open">
         <img src="/resources/images/gd-complete-ns.png" />
       </div>
-    </div>
+    </div><!-- end profile-container -->
   </body>
 </html>

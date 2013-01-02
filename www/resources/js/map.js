@@ -9,7 +9,7 @@ StartIcon.image = "http://www.google.com/mapfiles/markerA.png";
 
 var EndIcon = new GIcon(baseIcon);
 EndIcon.image = "http://www.google.com/mapfiles/markerB.png";
-
+/*
 function loadjscssfile(filename, filetype){
   if (filetype=="js") { //if filename is a external JavaScript file
     var fileref=document.createElement('script');
@@ -25,7 +25,7 @@ function loadjscssfile(filename, filetype){
   if (typeof fileref!="undefined") {
     document.getElementsByTagName("head")[0].appendChild(fileref);
   }
-}
+}*/
 
 function initialize() {
   map = new GMap2(document.getElementById('map_canvas'));
@@ -37,6 +37,7 @@ function initialize() {
   var bounds = new GLatLngBounds(sw, ne);
   var mapZoomLevel = map.getBoundsZoomLevel(bounds);
   var mapCenter = new GLatLng(42.0, -110.0);
+  
   map.setCenter(mapCenter, mapZoomLevel);
   map.enableContinuousZoom();
   map.enableScrollWheelZoom();
@@ -83,4 +84,56 @@ function initialize() {
     numLevels: 18
   });
   map.addOverlay(basin);
+  
+  var startMarker = new GMarker(PointAStart, {draggable: true, icon:StartIcon});
+		var endMarker = new GMarker(PointBStart, {draggable: true, icon:EndIcon});
+  
+  var snapToRouteA = new SnapToRoute(map, startMarker, route);
+		var snapToRouteB = new SnapToRoute(map, endMarker, route);
+  
+  map.addOverlay( startMarker );
+		map.addOverlay( endMarker );
+  
+  GEvent.addListener(endMarker, "dragend", function(e){
+    dragEnd();
+  });
+  
+  GEvent.addListener(startMarker, "dragend", function(e){
+    dragEnd();
+  });
 }
+
+function dragEnd() {
+  alert('test');
+}
+
+/*
+ElevationMapView.prototype.dragEnd = function(){
+		var self = this;
+		
+		var src = application.getModel( "ElevationModel" ).getGraphSrc(
+				this.startMarker.getLatLng(),
+				this.endMarker.getLatLng());
+
+		this.elevationImage.html("<img src=\"" + src + "\" />");
+		this.resizeElevationImage();
+		
+		
+		application.getModel( "ElevationModel" ).getStats(
+			this.startMarker.getLatLng(),
+			this.endMarker.getLatLng(),
+			function( Elevation ){
+				self.populateStats(
+						Elevation.startmile,
+						Elevation.endmile,
+						Elevation.distance,
+						Elevation.direction,
+						Elevation.ascent,
+						Elevation.descent,
+						Elevation.net);
+				self.updateRadio( Elevation.direction );
+			},function( errorData ){
+				alert( errorData );
+			});
+	};
+*/

@@ -2,85 +2,138 @@
   display: block;
 }
 
-.open label {
+.toggle-closed .open {
   display: none;
-}
-.closed label {
-  display: block;
 }
 
-.closed .open {
-  display: none;
+#title-bar .navbar-inner .brand {
+  color: #374E1F;
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.25);
 }
-  
+
+#title-bar .navbar-inner {
+  background-color: #D6DBC9;
+  background-image: none;
+  background-repeat: none;
+  border:none;
+  border-bottom:solid 2px #B3BB9D;
+  filter:none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+#title-bar .nav li a.rightmost {
+  padding: 10px 0px 10px 15px;
+}
+
 #profile-container {
   position: absolute;
   width: 80%;
   left: 10%;
   bottom: 0;
 }
+#profile-container img {
+  padding: 5px 5px 0;
+  background: #D6DBC9;
+  border:solid 2px #B3BB9D;
+  border-bottom: none;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
 
 #profile-container .toggle {
   width: 150px;
   height: 25px;
-  background: #000;
+  background: #D6DBC9;
+  border:solid 2px #B3BB9D;
+  border-bottom: none;
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
   cursor: pointer;
   margin: 0 auto;
+  position: relative;
+  bottom: -2px;
 }
 
-#profile-container.closed .toggle {
-  background: #060;
+#profile-container .toggle:hover,
+#profile-container.toggle-closed .toggle:hover {
+  background: #B3BB9D;
+}
+
+#profile-container.toggle-closed .toggle {
+  
+}
+
+.toggle {
+  text-align: center;
+}
+
+.toggle-closed .toggle {
+  
 }
 
 #stat-container {
   position: absolute;
+  padding: 10px 22px 25px;
   top:41px;
-  width: 200px;
-  height: 300px;
-  background: #fff;
+  margin-top: -1px;
+  width: 171px;
+  background: #D6DBC9;
+  z-index: 1040;
+  border:solid 2px #B3BB9D;
+  border-left:none;
+  border-top:none;
+  border-bottom-right-radius: 25px;
+}
+
+#stat-container p,
+#stat-container label {
+  margin-left: 5px;
+}
+
+#stat-container #direction-container {
+  margin-top: 15px;
+}
+
+#stat-container #direction-container input[type="radio"] {
+  margin:0;
+  margin-bottom: 3px;
 }
 
 #stat-container .toggle {
   position: absolute;
-  right:0;
+  left:0;
   bottom: 0;
-  width: 25px;
+  width: 100%;
   height: 25px;
-  background: #000;
   cursor: pointer;
+  border-bottom-right-radius: 10px;
 }
 
-#stat-container.closed {
+#stat-container .toggle:hover,
+#stat-container.toggle-closed .toggle:hover {
+  background: #B3BB9D;
+}
+
+#stat-container.toggle-closed {
   width: auto;
   height: auto;
+  padding:0;
 }
 
-#stat-container.closed .toggle {
+#stat-container.toggle-closed .toggle {
   width: 25px;
   height: 25px;
-  background: #060;
+  background: #D6DBC9;
   cursor: pointer;
   position: absolute;
   top: 0;
   left: 0;
-  
 }
 
-@media all and (max-width:960px) {
+@media all and (max-width: 480px) {
   
-}
-
-@media all and (max-width: 768px) {
-  
-}
-/*
-@media all and (max-width:480px) {
-  **
-   * iphone portrait
-   *
-   * GDEP title across top
-   * 3 vertical tabs: Map, Stats, Profile
-   *
   #title-bar .navbar-inner {
     height:25px;
     min-height: 25px;
@@ -97,14 +150,37 @@
     font-weight: bold;
   }
   
-  #stat-container {
-    bottom:0;
-    top:auto;
-    width: 100%;
-    background: #ddd;
+  #title-bar .nav {
+    display: none;
   }
   
   #profile-container {
-    
+    left: 0;
+    width: 100%;
   }
-}*/
+  
+  #profile-container img {
+    padding: 0;
+    border-radius: 0;
+    border:none;
+  }
+  
+  #profile-container .toggle {
+    bottom: 0;
+  }
+  
+  #stat-container {
+    top: 26px;
+    width: 280px;
+  }
+  
+  #stat-container #distance-container {
+    float:left;
+  }
+  
+  #stat-container #direction-container {
+    float: right;
+    margin-top:0;
+  }
+}
+
