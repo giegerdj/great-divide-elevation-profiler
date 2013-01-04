@@ -8,7 +8,7 @@
  *   <!--  
  *   This is based on Marcelo's <a href="http://maps.forum.nu/gm_mouse_dist_to_line.html">
  *   "Distance to line" example</a>
- *   Work was done by Björn Brala to wrap the algorithm in a class operating on Maps API objects,
+ *   Work was done by BjÃ¶rn Brala to wrap the algorithm in a class operating on Maps API objects,
  *   and by Bill Chadwick to factor the basic algorithm out of the class and add distance along line
  *   to nearest point calculation.
  *   -->
@@ -24,13 +24,13 @@
  */
 
 function SnapToRoute(map, marker, polyline) {
-	
   this.routePixels_ = [];
-  this.normalProj_ = G_NORMAL_MAP.getProjection();
   this.map_ = map;
   this.marker_ = marker;
   this.polyline_ = polyline;
-
+  
+  this.normalProj_ = new MercatorProjection();
+  //console.log( map.getZoom() );
   this.init_();
 }
 
@@ -58,17 +58,20 @@ SnapToRoute.prototype.updateTargets = function (marker, polyline) {
   this.loadLineData_();
 };
 
-
 /**
  * Set up map listeners to calculate and update the marker position.
  * @private
  */
 SnapToRoute.prototype.loadMapListener_ = function () {
   var me = this;
-  GEvent.addListener(me.marker_, 'drag', 
-	GEvent.callback(me, me.updateMarkerLocation_));
-  GEvent.addListener(me.map_, 'zoomend', 
-    GEvent.callback(me, me.loadLineData_));
+  
+  google.maps.event.addListener(me.marker_, 'drag', function(e) {
+    me.updateMarkerLocation_( e.latLng );
+  });
+  
+  google.maps.event.addListener(me.map_, 'zoom_changed', function(e) {
+    me.loadLineData_();
+  });
 };
 
 
@@ -79,8 +82,10 @@ SnapToRoute.prototype.loadMapListener_ = function () {
  */
 SnapToRoute.prototype.loadLineData_ = function () {
   var zoom = this.map_.getZoom();
+  //console.log('z: ' + this.map_.getZoom())
   this.routePixels_ = [];
-  for (var i = 0; i < this.polyline_.getVertexCount(); i++) {
+  var vertex_count = this.polyline_.getVertexCount();
+  for (var i = 0; i < vertex_count; i++) {
     var Px = this.normalProj_.fromLatLngToPixel(this.polyline_.getVertex(i), zoom);
     this.routePixels_.push(Px);
   }
@@ -93,8 +98,13 @@ SnapToRoute.prototype.loadLineData_ = function () {
  * @private
  */
 SnapToRoute.prototype.updateMarkerLocation_ = function (mouseLatLng) {
+  //console.log('--------')
+  //console.log('mouse:');
+  //console.log(mouseLatLng);
   var markerLatLng = this.getClosestLatLng(mouseLatLng);
-  this.marker_.setLatLng(markerLatLng);
+  //console.log('getClosestLatLng:');
+  //console.log(markerLatLng);
+  this.marker_.setPosition(markerLatLng);
 };
 
 
@@ -105,7 +115,15 @@ SnapToRoute.prototype.updateMarkerLocation_ = function (mouseLatLng) {
  */
 SnapToRoute.prototype.getClosestLatLng = function (latlng) {
   var r = this.distanceToLines_(latlng);
-  return this.normalProj_.fromPixelToLatLng(new GPoint(r.x, r.y), this.map_.getZoom());
+  //console.log('distanceToLines_:');
+  //console.log(r);
+  var point = new google.maps.Point(r.x, r.y);
+  //console.log('point:')
+  //console.log(point);
+  
+  return this.normalProj_.pointToLatlng(this.map_, point, this.map_.getZoom());
+  //return this.normalProj_.fromPointToLatLng(point, this.map_.getZoom());
+
 };
 
 
@@ -120,7 +138,7 @@ SnapToRoute.prototype.getDistAlongRoute = function (latlng) {
   if (typeof(opt_latlng) === 'undefined') {
     latlng = this.marker_.getLatLng();
   }
-
+  
   var r = this.distanceToLines_(latlng);
   return this.getDistToLine_(r.i, r.to);
 };
@@ -133,8 +151,12 @@ SnapToRoute.prototype.getDistAlongRoute = function (latlng) {
  */
 SnapToRoute.prototype.distanceToLines_ = function (mouseLatLng) {
   var zoom = this.map_.getZoom();
+  
   var mousePx = this.normalProj_.fromLatLngToPixel(mouseLatLng, zoom);
+  //console.log('mousePx:');
+  //console.log(mousePx);
   var routePixels_ = this.routePixels_;
+  
   return this.getClosestPointOnLines_(mousePx, routePixels_);
 };
 
@@ -168,6 +190,7 @@ SnapToRoute.prototype.getDistToLine_ = function (line, to) {
  * @private
  */
 SnapToRoute.prototype.getClosestPointOnLines_ = function (pXy, aXys) {
+  //console.log(aXys)
   var minDist; 
   var to;
   var from;
@@ -228,8 +251,79 @@ SnapToRoute.prototype.getClosestPointOnLines_ = function (pXy, aXys) {
 
     x = aXys[i - 1].x - (dx * to);
     y = aXys[i - 1].y - (dy * to);
-
   }
 
   return {'x': x, 'y': y, 'i': i, 'to': to, 'from': from};
+};
+
+
+google.maps.Polyline.prototype.getVertexCount = function () {
+  return this.getPath().length;
+};
+
+google.maps.Polyline.prototype.getVertex = function( vertex_num ) {
+  return this.getPath().getAt(vertex_num);
+}
+
+
+
+var MERCATOR_RANGE = 256;
+
+function bound(value, opt_min, opt_max) {
+  if (opt_min != null) value = Math.max(value, opt_min);
+  if (opt_max != null) value = Math.min(value, opt_max);
+  return value;
+}
+
+function degreesToRadians(deg) {
+  return deg * (Math.PI / 180);
+}
+
+function radiansToDegrees(rad) {
+  return rad / (Math.PI / 180);
+}
+
+function MercatorProjection() {
+  this.pixelOrigin_ = new google.maps.Point( MERCATOR_RANGE / 2, MERCATOR_RANGE / 2);
+  this.pixelsPerLonDegree_ = MERCATOR_RANGE / 360;
+  this.pixelsPerLonRadian_ = MERCATOR_RANGE / (2 * Math.PI);
+};
+
+MercatorProjection.prototype.fromLatLngToPoint = function(latLng, opt_point) {
+  var me = this;
+
+  var point = opt_point || new google.maps.Point(0, 0);
+
+  var origin = me.pixelOrigin_;
+  point.x = origin.x + latLng.lng() * me.pixelsPerLonDegree_;
+  // NOTE(appleton): Truncating to 0.9999 effectively limits latitude to
+  // 89.189.  This is about a third of a tile past the edge of the world tile.
+  var siny = bound(Math.sin(degreesToRadians(latLng.lat())), -0.9999, 0.9999);
+  point.y = origin.y + 0.5 * Math.log((1 + siny) / (1 - siny)) * -me.pixelsPerLonRadian_;
+  return point;
+};
+
+MercatorProjection.prototype.pointToLatlng = function(map, point, z) {
+  var scale = Math.pow(2, z);
+  var normalizedPoint = new google.maps.Point(point.x / scale, point.y / scale);
+  var latlng = map.getProjection().fromPointToLatLng(normalizedPoint);
+  return latlng; 
+};
+
+MercatorProjection.prototype.fromPointToLatLng = function(point) {
+  var me = this;
+  
+  var origin = me.pixelOrigin_;
+  var lng = (point.x - origin.x) / me.pixelsPerLonDegree_;
+  var latRadians = (point.y - origin.y) / -me.pixelsPerLonRadian_;
+  var lat = radiansToDegrees(2 * Math.atan(Math.exp(latRadians)) - Math.PI / 2);
+  return new google.maps.LatLng(lat, lng);
+};
+
+MercatorProjection.prototype.fromLatLngToPixel = function(latlng, z) {
+  var scale = Math.pow(2, z);
+  var normalizedPoint = this.fromLatLngToPoint(latlng);
+  
+  var pixelCoordinate = new google.maps.Point(Math.round(normalizedPoint.x * scale), Math.round(normalizedPoint.y * scale) );
+  return pixelCoordinate;
 };
