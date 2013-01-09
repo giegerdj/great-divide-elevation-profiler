@@ -136,10 +136,11 @@ SnapToRoute.prototype.getClosestLatLng = function (latlng) {
  */
 SnapToRoute.prototype.getDistAlongRoute = function (latlng) {
   if (typeof(opt_latlng) === 'undefined') {
-    latlng = this.marker_.getLatLng();
+    latlng = this.marker_.getPosition();
   }
   
   var r = this.distanceToLines_(latlng);
+  //console.log(r);
   return this.getDistToLine_(r.i, r.to);
 };
 
@@ -168,10 +169,13 @@ SnapToRoute.prototype.distanceToLines_ = function (mouseLatLng) {
  * @private
  */
 SnapToRoute.prototype.getDistToLine_ = function (line, to) {
+  if( isNaN(to) ) {
+    return 0;
+  }
   var routeOverlay = this.polyline_;
   var d = 0;
   for (var n = 1; n < line; n++) {
-    d += routeOverlay.getVertex(n - 1).distanceFrom(routeOverlay.getVertex(n));
+    d += routeOverlay.getVertex(n - 1).distanceFrom( routeOverlay.getVertex(n) );
   }
   d += routeOverlay.getVertex(line - 1).distanceFrom(routeOverlay.getVertex(line)) * to;
   
@@ -260,14 +264,52 @@ SnapToRoute.prototype.getClosestPointOnLines_ = function (pXy, aXys) {
 google.maps.Polyline.prototype.getVertexCount = function () {
   return this.getPath().length;
 };
+/*
+google.maps.Polyline.prototype.distanceBetween = function(a, b) {
+  var start = (a < b) ? a : b;
+  var end = (a > b) ? a : b;
+  var dist = 0;
+  var start_point = null;
+  var end_point = null;
+  
+  for (var n = a; n < b; n++) {
+    //from a to a+1
+    start_point = this.getVertex(a);
+    end_point = this.getVertex(a+1);
+    
+    dist += mkToMi( getDistanceFromLatLngInKm(start_point.lat(), start_point.lng(), end_point.lat(), end_point.lng()) );
+  }
+  
+  return dist;
+}*/
+
+google.maps.LatLng.prototype.distanceFrom = function( lat_lng ) {
+  return kmToMi( getDistanceFromLatLngInKm(this.lat(), this.lng(), lat_lng.lat(), lat_lng.lng()) );
+}
 
 google.maps.Polyline.prototype.getVertex = function( vertex_num ) {
   return this.getPath().getAt(vertex_num);
 }
 
+function getDistanceFromLatLngInKm(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = degreesToRadians(lat2-lat1);  // deg2rad below
+  var dLon = degreesToRadians(lon2-lon1);
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) + 
+    Math.cos(degreesToRadians(lat1)) * Math.cos(degreesToRadians(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = R * c; // Distance in km
+  return d;
+}
 
 
 var MERCATOR_RANGE = 256;
+
+function kmToMi(km) {
+  return km * 0.621371;
+}
 
 function bound(value, opt_min, opt_max) {
   if (opt_min != null) value = Math.max(value, opt_min);
