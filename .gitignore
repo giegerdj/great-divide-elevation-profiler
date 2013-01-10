@@ -1,1 +1,5 @@
-includes/php/config.php
+/app/config/config.php
+/www/resources/cache/*
+!/www/resources/cache/index.html
+/app/cache/*
+!/app/cache/.empty

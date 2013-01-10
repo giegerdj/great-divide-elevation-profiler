@@ -1,1 +1,1 @@
-json.tpl file
+<?= json_encode($this->ajax_return);
