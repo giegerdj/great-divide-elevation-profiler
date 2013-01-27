@@ -99,9 +99,9 @@ for($x=0; $x < $num_lines; $x++) {
 
 //printAtomicDataSQL($data);
 
-printSummarizedData($data, 0.2);
-
-
+//printSummarizedData($data, 3.2);
+//printSummarizedData($data, 6.4);
+printSummarizedData($data, 12.8);
 /**
  *  START HELPER FUNCTIONS
  */
@@ -163,6 +163,9 @@ function printSummarizedData($data, $segment_granularity) {
     $num_points = sizeof($data);
     $segments = array();
     
+    $table_suffix = $segment_granularity*10;
+    $segment_granularity *= 5280;
+    
     $segment_length = 0;
     $segment_ascent = 0;
     $segment_descent = 0;
@@ -198,7 +201,7 @@ function printSummarizedData($data, $segment_granularity) {
         
         if( $x%250 == 0 ) {
             //start a new SQL insert statement
-            echo PHP_EOL , 'INSERT INTO coordinates_' , ($segment_granularity*10) , ' (id, ascent, descent, banff_distance) VALUES';
+            echo PHP_EOL , 'INSERT INTO coordinates_' , $table_suffix , ' (id, ascent, descent, banff_distance) VALUES';
         }
         if( $x%250 != 0 ) {
             echo ',';
