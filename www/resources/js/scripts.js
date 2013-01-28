@@ -95,7 +95,7 @@ function initialize() {
     start_cardinal: 'N',
     end_cardinal: 'S',
     updateCallback: function(res){
-      console.log(res);
+      //console.log(res);
       /**
        * @todo
        * if typeof e.cache_hit != 'undefined'
@@ -107,8 +107,8 @@ function initialize() {
       $('#descent').html( res.stats.descent )
       $('#distance').html( Math.round(res.stats.distance*10)/10 )
       $('#net-elevation').html( res.stats.net_elevation )
-      $('#start-mile').html( Math.round(res.stats.start_mile*10)/10 )
-      $('#end-mile').html( Math.round(res.stats.end_mile*10)/10 )
+      $('#start-mile').html( Math.round(res.stats.relative_start_mile*10)/10 )
+      $('#end-mile').html( Math.round(res.stats.relative_end_mile*10)/10 )
       
       if( em.getStartMile() > em.getEndMile() ) {
         $('#direction-container input[name="direction"][value="reverse"]').attr('checked','checked');

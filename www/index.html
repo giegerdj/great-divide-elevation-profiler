@@ -6,8 +6,8 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="Author" content="Dave Gieger" />
-    <meta name="description" content="Draw elevation profiles for Adventure Cycling's Great Divide Mountain Bike Route. " />
-    <meta name="keywords" content="great divide elevation profile gdmbr adventure cycling aca bikepacking" />
+    <meta name="description" content="Draw elevation profiles for Adventure Cycling's Great Divide Mountain Bike Route." />
+    <meta name="keywords" content="great divide elevation profile gdmbr adventure cycling aca bikepacking eat sleep ride" />
     
     <link href="/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/resources/css/esrgd-style.css" rel="stylesheet">
@@ -31,7 +31,9 @@
         <div class="container-fluid">
           <a class="brand" href="/"><strong>Great Divide Elevation Profiler</strong></a>
           <ul class="nav" style="float:right;">
-            <li><a href="#about" class="rightmost">About</a></li>
+            <li>
+              <a href="#about-modal" data-toggle="modal">About</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -43,13 +45,13 @@
       </div>
       <div class="open">
         <div id="distance-container">
-          <h4>Miles <span id="start-mile">0</span> to <span id="end-mile">2690.8</span></h4>
+          <h4>Miles <span id="start-mile"></span> to <span id="end-mile"></span></h4>
           <p>
-            <strong>Distance:</strong> <span id="distance">2690.8</span> mi<br />
-            <strong>Direction:</strong> <span id="direction">Southbound</span><br />
-            <strong>Ascent:</strong> <span id="ascent">158140</span> ft<br />
-            <strong>Descent:</strong> <span id="descent">157220</span> ft<br />
-            <strong>Net:</strong> <span id="net-elevation">920</span> ft
+            <strong>Distance:</strong> <span id="distance"></span> mi<br />
+            <strong>Direction:</strong> <span id="direction"></span><br />
+            <strong>Ascent:</strong> <span id="ascent"></span> ft<br />
+            <strong>Descent:</strong> <span id="descent"></span> ft<br />
+            <strong>Net:</strong> <span id="net-elevation"></span> ft
           </p>
         </div>
         <div id="direction-container">
@@ -72,5 +74,21 @@
         <img src="/resources/images/gd-complete-ns.png" />
       </div>
     </div><!-- end profile-container -->
+    <!-- Modal -->
+    <div id="about-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 id="myModalLabel">Modal header</h3>
+      </div>
+      <div class="modal-body">
+        <p>One fine body...</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+    
+    <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

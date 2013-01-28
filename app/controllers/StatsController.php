@@ -30,8 +30,10 @@ class StatsController extends \Tachyon\Controller {
             $this->ajax_return['stats'] = array(
                 'ascent' => $stats['ascent'],
                 'descent' => $stats['descent'],
-                'start_mile' => $stats['start_mile'],
-                'end_mile' => $stats['end_mile'],
+                'relative_start_mile' => $stats['relative_start_mile'],
+                'relative_end_mile' => $stats['relative_end_mile'],
+                'absolute_start_mile' => $stats['absolute_end_mile'],
+                'absolute_end_mile' => $stats['absolute_end_mile'],
                 'distance' => $stats['distance'],
                 'start_coordinate' => $closest_start_coord['coordinate'],
                 'end_coordinate' => $closest_end_coord['coordinate'],

@@ -57,8 +57,10 @@ class RouteModel {
             'descent' => $is_reverse ? $stats['ascent'] : $stats['descent'],
             'distance' => $stats['distance'],
             'net' => ($is_reverse ? -1 : 1) * $stats['net'],
-            'start_mile' => $stats['start_mile'],
-            'end_mile' => $stats['end_mile']
+            'absolute_start_mile' => $stats['absolute_start_mile'],
+            'absolute_end_mile' => $stats['absolute_end_mile'],
+            'relative_start_mile' => $stats['relative_start_mile'],
+            'relative_end_mile' => $stats['relative_end_mile']
         );
     }//end method getSegmentStats
     

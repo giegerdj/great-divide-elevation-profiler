@@ -29,8 +29,12 @@ html {
   -webkit-box-shadow: none;
 }
 
-#title-bar .nav li a.rightmost {
-  padding: 10px 0px 10px 15px;
+#title-bar .nav li a:focus {
+  outline: none;
+}
+
+.modal-backdrop {
+  background-color: #666;
 }
 
 #profile-container {
@@ -87,7 +91,7 @@ html {
   padding: 10px 22px 25px;
   top:41px;
   margin-top: -1px;
-  width: 171px;
+  width: 190px;
   background: #D6DBC9;
   z-index: 1040;
   border:solid 2px #B3BB9D;

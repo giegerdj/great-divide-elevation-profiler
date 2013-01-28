@@ -147,12 +147,14 @@ WHERE
         $meta = ElevationProfile::getGraphMetadata($start_mile, $end_mile);
         
         return array(
-            'ascent' => $data[0]['total_ascent'],
-            'descent' => $data[0]['total_descent'],
+            'ascent' => (int)$data[0]['total_ascent'],
+            'descent' => (int)$data[0]['total_descent'],
             'distance' => abs($start_mile - $end_mile),
             'net' => abs($data[0]['total_ascent']-$data[0]['total_descent']),
-            'start_mile' => $meta['scale_start'],
-            'end_mile' => $meta['scale_end']
+            'absolute_start_mile' => $meta['absolute_start_mile'],
+            'absolute_end_mile' => $meta['absolute_end_mile'],
+            'relative_start_mile' => $meta['relative_start_mile'],
+            'relative_end_mile' => $meta['relative_end_mile']
         );
         
         

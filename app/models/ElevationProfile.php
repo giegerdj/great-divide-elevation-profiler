@@ -39,13 +39,13 @@ class ElevationProfile {
         $mile_data = ElevationProfile::getGraphMetadata($start_mile, $end_mile);
         
         
-        $graph->SetScale('linlin', null, null, $mile_data['scale_start'], $mile_data['scale_end']);
+        $graph->SetScale('linlin', null, null, $mile_data['absolute_start_mile'], $mile_data['absolute_end_mile']);
         
         //http://dejavu-fonts.org/wiki/Main_Page
         $graph->title->SetFont(FF_DV_SANSSERIF, FS_BOLD);
         
         
-        $graph->title->Set('Great Divide MTB Route: Miles ' . $mile_data['scale_start_mile'] . ' to ' . $mile_data['scale_end_mile'] .
+        $graph->title->Set('Great Divide MTB Route: Miles ' . $mile_data['relative_start_mile'] . ' to ' . $mile_data['relative_end_mile'] .
                            ' ' . ($is_reverse ? 'Northbound' : 'Southbound') );
         
         
@@ -83,10 +83,10 @@ class ElevationProfile {
         }
         
         return array(
-            'scale_start' => $scale_start,
-            'scale_end' => $scale_end,
-            'scale_start_mile' => $scale_start_mile,
-            'scale_end_mile' => $scale_end_mile
+            'absolute_start_mile' => $scale_start,
+            'absolute_end_mile' => $scale_end,
+            'relative_start_mile' => $scale_start_mile,
+            'relative_end_mile' => $scale_end_mile
         );
     }
     
