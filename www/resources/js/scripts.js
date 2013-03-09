@@ -106,7 +106,6 @@ function initialize() {
     start_cardinal: 'N',
     end_cardinal: 'S',
     updateCallback: function(res){
-      console.log(res);
       /**
        * @todo eventually
        * if typeof e.cache_hit != 'undefined'
