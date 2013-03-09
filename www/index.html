@@ -32,7 +32,7 @@
           <a class="brand" href="/"><strong>Great Divide Elevation Profiler</strong></a>
           <ul class="nav" style="float:right;">
             <li>
-              <a href="#about-modal" data-toggle="modal">About</a>
+              <a id="open-modal">About</a>
             </li>
           </ul>
         </div>
@@ -75,20 +75,50 @@
       </div>
     </div><!-- end profile-container -->
     <!-- Modal -->
-    <div id="about-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 id="myModalLabel">Modal header</h3>
+    <div id="modal-bg" style="display: none;"></div>
+    <div class="modal-container">
+      <div id="about-modal" class="esrgd-modal" style="display: none;">
+        <div class="esrgd-close">&times;</div>
+        <h2>Eat. Sleep. Ride. Great Divide.</h2>
+        <p class="lead">
+          Elevation profiles of the Great Divide Mountain Bike Route.
+        </p>
+        <p>
+          <strong>Note about ascent/descent numbers</strong><br />
+          
+          Changes in elevation between the source GPS points only count toward ascent or descent if
+          the grade between the points is greater than 1%.
+          <br />
+          Originally, the app counted every single change in elevation toward the total
+          ascent or descent.  Riders have pointed out this overestimates the amount of
+          climbing and descending.  Especially considering GPS records elevation to
+          fractions of an inch.
+        </p>
+        <p>
+          <strong>Due Dilligence</strong><br />
+          Thanks to <a href="http://adventurecycling.org/">Adventure Cycling</a> for the amazing
+          route and Scott Morris at <a href="http://topofusion.com/">TopoFusion</a> for the
+          coordinate/elevation data.
+        </p>
+        <p>
+          App developed by Dave Gieger, who <a href="http://gdmbr.davegieger.com/">rode NoBo in 2010</a>.
+          I'm happy to chat about the route and answer questions if you're heading out there for
+          the first time. Email me at
+&#103;&#105;&#101;&#103;&#101;&#114;&#046;&#100;&#097;&#118;&#105;&#100;&lt;AT&gt;&#103;&#109;&#097;&#105;&#108;&#046;&#099;&#111;&#109;.
+          
+        </p>
+        <p>
+          <strong>Coming Soon</strong><br />
+          1) Stateful URLs: so you can hotlink to specific sections of the route.<br />
+          2) % Grade Filtering: choose the % grade at which changes in elevation count
+          toward ascent/descent.  
+          
+        </p>
+        <p>
+          <small>Last Update: March 2013</small>
+        </p>
       </div>
-      <div class="modal-body">
-        <p>One fine body...</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-    
+    </div><!-- end div.modal-container -->
     <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>

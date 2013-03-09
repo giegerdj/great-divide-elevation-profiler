@@ -33,8 +33,52 @@ html {
   outline: none;
 }
 
-.modal-backdrop {
-  background-color: #666;
+#modal-bg {
+  background-color: #000;
+  opacity: 0.6;
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top:0;
+  left:0;
+  z-index: 1100;
+}
+
+.modal-container {
+  position: absolute;
+  top: 100px;
+  width: 100%;
+  z-index: 1110;
+}
+
+.esrgd-modal {
+  position: relative;
+  margin: 0 auto;
+  width: 80%;
+  max-width: 600px;
+  background: #D6DBC9;
+  border: solid 2px #B3BB9D;
+  border-radius: 10px;
+  padding:10px;
+}
+
+.esrgd-modal .esrgd-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 30px;
+  color: #333;
+  text-align: center;
+  cursor: pointer;
+  opacity: 0.2;
+}
+
+.esrgd-modal .esrgd-close:hover {
+  opacity: 0.4;
 }
 
 #profile-container {

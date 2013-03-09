@@ -39,10 +39,12 @@ class StatsController extends \Tachyon\Controller {
                 'end_coordinate' => $closest_end_coord['coordinate'],
                 'net_elevation' => $stats['net']
             );
-            
+        } catch(ESRGD\DatabaseException $e) {
+            $this->ajax_return['error'] = "Something went wrong pulling the route stats from the database. Try again?";
+        } catch(ESRGD\NotFoundException $e) {
+            $this->ajax_return['error'] = "We couldn't find any points for the selected route.  Try expanding the selection.";
         } catch(Exception $e) {
             $this->ajax_return['error'] = "We couldn't create the graph. Try again.";
-            error_log($e->getMessage());
         }
         
         $this->render('ajax/json.tpl');

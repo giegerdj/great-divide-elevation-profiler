@@ -47,7 +47,7 @@ ElevationMap.prototype.placeMarkers = function() {
   
   if(this.start_mile && this.end_mile) {
     /**
-     * @todo
+     * @todo eventually
      * send the mile markers to ajax.
      * block the ui
      *
@@ -58,7 +58,7 @@ ElevationMap.prototype.placeMarkers = function() {
     
   } else {
     /**
-     * @todo
+     * @todo eventually
      * the start/end miles weren't specified.
      * figure out marker positions based on the route and start/end cardinality
      */

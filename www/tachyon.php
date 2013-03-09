@@ -2,6 +2,7 @@
 
 define('APP_PATH', dirname(dirname(__FILE__)) . '/' );
 require_once(APP_PATH . 'app/config/config.php');
+require_once(APP_PATH . 'app/config/exceptions.php');
 
 // Add lib to include path.
 $include_paths = array(

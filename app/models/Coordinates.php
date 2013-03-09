@@ -38,20 +38,22 @@ ORDER BY
             $statement = $db->db_conn->prepare($sql);
             $statement->execute($sql_params);
         } catch(Exception $e) {
-            /**
-             * @todo throw custom ESRGD exception
-             */
             error_log( $e->getMessage() );
+            throw new ESRGD\DatabaseException('');
+            
         }
         
         $data = $statement->fetchAll();
         if( $data === false ) {
-            /**
-             * @todo throw custom ESRGD Exception
-             */
             error_log('fetchall => false');
-            throw new Exception('test');
+            throw new ESRGD\DatabaseException('');
+            
+        } else if( sizeof($data) == 0 ) {
+            error_log('fetchall => empty');
+            throw new ESRGD\NotFoundException('');
+            
         }
+        
         $return = array(
             'elevations' => array(),
             'distance' => array()
@@ -128,20 +130,21 @@ WHERE
             $statement = $db->db_conn->prepare($sql);
             $statement->execute($sql_params);
         } catch(Exception $e) {
-            /**
-             * @todo throw custom ESRGD exception
-             */
             error_log( $e->getMessage() );
+            throw new ESRGD\DatabaseException('');
+            
         }
         
         $data = $statement->fetchAll();
         
         if( $data === false ) {
-            /**
-             * @todo throw custom ESRGD Exception
-             */
             error_log('fetchall => false');
-            throw new Exception('test');
+            throw new Exception('');
+            
+        } else if( sizeof($data) == 0 ) {
+            error_log('fetchall => empty');
+            throw new ESRGD\NotFoundException('');
+            
         }
         
         $meta = ElevationProfile::getGraphMetadata($start_mile, $end_mile);
@@ -156,7 +159,6 @@ WHERE
             'relative_start_mile' => $meta['relative_start_mile'],
             'relative_end_mile' => $meta['relative_end_mile']
         );
-        
         
     }//end method getSegmentStats
     
@@ -196,20 +198,17 @@ LIMIT 1';
             $statement = $db->db_conn->prepare($sql);
             $statement->execute($sql_params);
         } catch(Exception $e) {
-            /**
-             * @todo throw custom ESRGD exception
-             */
             error_log( $e->getMessage() );
+            throw new ESRGD\DatabaseException('');
+            
         }
         
         $data = $statement->fetch();
         
         if( $data === false ) {
-            /**
-             * @todo throw custom ESRGD Exception
-             */
             error_log('fetchall => false');
-            throw new Exception('test');
+            throw new ESRGD\DatabaseException('');
+            
         }
         
         return array(
@@ -237,20 +236,17 @@ LIMIT 1';
             $statement = $db->db_conn->prepare($sql);
             $statement->execute();
         } catch(Exception $e) {
-            /**
-             * @todo throw custom ESRGD exception
-             */
             error_log( $e->getMessage() );
+            throw new ESRGD\DatabaseException('');
+            
         }
         
         $data = $statement->fetch();
         
         if( $data === false ) {
-            /**
-             * @todo throw custom ESRGD Exception
-             */
             error_log('fetchall => false');
-            throw new Exception('test');
+            throw new ESRGD\DatabaseException('');
+            
         }
         
         return $data['banff_distance']/5280;
