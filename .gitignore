@@ -1,3 +1,5 @@
-includes/php/config.php
-www/min/tmp/*
-!www/min/tmp/.empty
+/app/config/config.php
+/www/resources/cache/*
+!/www/resources/cache/index.html
+/app/cache/*
+!/app/cache/.empty
