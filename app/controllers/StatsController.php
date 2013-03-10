@@ -7,6 +7,13 @@ class StatsController extends \Tachyon\Controller {
         $start_coordinate = $this->getPOST('start_coord', null);
         $end_coordinate = $this->getPOST('end_coord', null);
         
+        $start_mile = $this->getPOST('start_mile', null);
+        $end_mile = $this->getPOST('end_mile', null);
+        
+        if($start_mile != null && $end_mile != null) {
+            $this->getMarkerLocations($start_mile, $end_mile);
+            return;
+        }
         $profile_width = 1050;
         $profile_height = 200;
         
@@ -32,7 +39,7 @@ class StatsController extends \Tachyon\Controller {
                 'descent' => $stats['descent'],
                 'relative_start_mile' => $stats['relative_start_mile'],
                 'relative_end_mile' => $stats['relative_end_mile'],
-                'absolute_start_mile' => $stats['absolute_end_mile'],
+                'absolute_start_mile' => $stats['absolute_start_mile'],
                 'absolute_end_mile' => $stats['absolute_end_mile'],
                 'distance' => $stats['distance'],
                 'start_coordinate' => $closest_start_coord['coordinate'],
@@ -44,10 +51,35 @@ class StatsController extends \Tachyon\Controller {
         } catch(ESRGD\NotFoundException $e) {
             $this->ajax_return['error'] = "We couldn't find any points for the selected route.  Try expanding the selection.";
         } catch(Exception $e) {
+            error_log( $e->getMessage() );
             $this->ajax_return['error'] = "We couldn't create the graph. Try again.";
         }
         
         $this->render('ajax/json.tpl');
         $this->sendResponse();
     }
+    
+    private function getMarkerLocations($start_mile, $end_mile) {
+        
+        try {
+            
+            $closest_start_coord = RouteModel::getCoordFromMile($start_mile);
+            $closest_end_coord = RouteModel::getCoordFromMile($end_mile);
+            
+            $this->ajax_return['coordinates'] = array(
+                'start' => $closest_start_coord,
+                'end' => $closest_end_coord
+            );
+        } catch(ESRGD\DatabaseException $e) {
+            $this->ajax_return['error'] = "Something went wrong pulling the route stats from the database. Try again?";
+        } catch(ESRGD\NotFoundException $e) {
+            $this->ajax_return['error'] = "We couldn't find any points for the selected route.  Try expanding the selection.";
+        } catch(Exception $e) {
+            $this->ajax_return['error'] = "We couldn't create the graph. Try again.";
+        }
+        
+        $this->render('ajax/json.tpl');
+        $this->sendResponse();
+        
+    }//end method getMarkerLocations
 }

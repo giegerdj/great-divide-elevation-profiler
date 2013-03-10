@@ -78,4 +78,18 @@ class RouteModel {
                 'lng' => $result['lng'])
         );
     }
+    
+    /**
+     *
+     */
+    public function getCoordFromMile( $mile ) {
+        
+        $result = Coordinates::getCoordFromMile($mile);
+        
+        return array(
+            'lat' => $result['lat'],
+            'lng' => $result['lng']
+        );
+        
+    }//end method getCoordFromMile
 }

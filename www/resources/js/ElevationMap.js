@@ -45,16 +45,32 @@ ElevationMap.prototype.toggleDirection = function() {
 
 ElevationMap.prototype.placeMarkers = function() {
   
-  if(this.start_mile && this.end_mile) {
-    /**
-     * @todo eventually
-     * send the mile markers to ajax.
-     * block the ui
-     *
-     * after response, place markers, bind the dragend functions,
-     * update graph, update stats, update direction
-     */
-    
+  if( !isNaN(this.start_mile) && !isNaN(this.end_mile) ) {
+    var data = {};
+    data['start_mile'] = this.start_mile;
+    data['end_mile'] = this.end_mile;
+    var me = this;
+    $.ajax({
+      url : '/segment-stats/',
+      data : data,
+      type : 'post',
+      dataType: 'json',
+      success : function(res){
+        me.start_marker = new google.maps.Marker({
+          position: new google.maps.LatLng( res.coordinates.start.lat, res.coordinates.start.lng ),
+          draggable: true,
+          icon: new google.maps.MarkerImage('https://www.google.com/mapfiles/markerA.png')
+        });
+        
+        me.end_marker = new google.maps.Marker({
+          position: new google.maps.LatLng( res.coordinates.end.lat, res.coordinates.end.lng ),
+          draggable: true,
+          icon: new google.maps.MarkerImage('https://www.google.com/mapfiles/markerB.png')
+        });
+        me.finalizeMap();
+        
+      }
+    });
     
   } else {
     /**
@@ -65,36 +81,41 @@ ElevationMap.prototype.placeMarkers = function() {
     this.start_marker = new google.maps.Marker({
       position: new google.maps.LatLng(51.160930102318986,-115.5982984602451),
       draggable: true,
-      icon: new google.maps.MarkerImage('http://www.google.com/mapfiles/markerA.png')
+      icon: new google.maps.MarkerImage('https://www.google.com/mapfiles/markerA.png')
     });
     
     this.end_marker = new google.maps.Marker({
       position: new google.maps.LatLng(31.334270220253053,-108.53035010397434),
       draggable: true,
-      icon: new google.maps.MarkerImage('http://www.google.com/mapfiles/markerB.png')
+      icon: new google.maps.MarkerImage('https://www.google.com/mapfiles/markerB.png')
     });
     
     var me = this;
     window.setTimeout(function(){
-      me.start_marker.setMap(me.map);
-      me.end_marker.setMap(me.map);
-      
-      me.start_snap = new SnapToRoute(me.map, me.start_marker, me.route_polyline);
-      me.end_snap = new SnapToRoute(me.map, me.end_marker, me.route_polyline);
-      
-      google.maps.event.addListener(me.end_marker, "dragend", function(e){
-        me.dragEnd();
-      });
-      
-      google.maps.event.addListener(me.start_marker, "dragend", function(e){
-        me.dragEnd();
-      });
-      
-      me.dragEnd();
+      me.finalizeMap();
     }, 500);
   }
   
 };
+
+ElevationMap.prototype.finalizeMap = function() {
+  var me = this;
+  this.start_marker.setMap(this.map);
+  this.end_marker.setMap(this.map);
+  
+  this.start_snap = new SnapToRoute(this.map, this.start_marker, this.route_polyline);
+  this.end_snap = new SnapToRoute(this.map, this.end_marker, this.route_polyline);
+  
+  google.maps.event.addListener(this.end_marker, "dragend", function(e){
+    me.dragEnd();
+  });
+  
+  google.maps.event.addListener(this.start_marker, "dragend", function(e){
+    me.dragEnd();
+  });
+  
+  this.dragEnd();
+}
 
 ElevationMap.prototype.dragEnd = function() {
   var data = {};
@@ -115,6 +136,10 @@ ElevationMap.prototype.dragEnd = function() {
     dataType: 'json',
     success : function(res){
       me.updateCallback(res);
+      
+      var new_url = '/#start=' + Math.round(res.stats.absolute_start_mile)
+            + '&end=' + Math.round(res.stats.absolute_end_mile);
+      history.replaceState({}, '', new_url);
     }
   });
 };

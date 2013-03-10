@@ -146,7 +146,6 @@ WHERE
             throw new ESRGD\NotFoundException('');
             
         }
-        
         $meta = ElevationProfile::getGraphMetadata($start_mile, $end_mile);
         
         return array(
@@ -251,4 +250,48 @@ LIMIT 1';
         
         return $data['banff_distance']/5280;
     }//end method getRouteDistance
+    
+    /**
+     *
+     */
+    public static function getCoordFromMile($mile) {
+        $db = DatabaseConnection::getInstance();
+        $feet = $mile * 5280;
+        
+        $sql_params = array(
+            'ft' => $feet
+        );
+        
+        $sql = '
+SELECT
+    lat, lng
+FROM
+    coordinates_atomic 
+ORDER BY
+    ABS( banff_distance - :ft ) ASC
+LIMIT 1';
+        
+        try {
+            $statement = $db->db_conn->prepare($sql);
+            $statement->execute($sql_params);
+        } catch(Exception $e) {
+            error_log( $e->getMessage() );
+            throw new ESRGD\DatabaseException('');
+            
+        }
+        
+        $data = $statement->fetch();
+        if( $data === false ) {
+            error_log('fetch => false');
+            throw new ESRGD\DatabaseException('');
+            
+        }
+        
+        return array(
+            'lat' => $data['lat'],
+            'lng' => $data['lng']
+        );
+        
+        
+    }//end method getCoordFromMile
 }
