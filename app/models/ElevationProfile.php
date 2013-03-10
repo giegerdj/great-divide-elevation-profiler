@@ -38,8 +38,9 @@ class ElevationProfile {
         
         $mile_data = ElevationProfile::getGraphMetadata($start_mile, $end_mile);
         
-        
-        $graph->SetScale('linlin', null, null, $mile_data['absolute_start_mile'], $mile_data['absolute_end_mile']);
+        $min = min( array($mile_data['absolute_start_mile'], $mile_data['absolute_end_mile']) );
+        $max = max( array($mile_data['absolute_start_mile'], $mile_data['absolute_end_mile']) );
+        $graph->SetScale('linlin', null, null, $min, $max);
         
         //http://dejavu-fonts.org/wiki/Main_Page
         $graph->title->SetFont(FF_DV_SANSSERIF, FS_BOLD);
@@ -57,37 +58,32 @@ class ElevationProfile {
         $filename = ElevationProfile::getCacheName($start_mile, $end_mile);
         $graph->Stroke(ABS_WEB_CACHE_PATH . $filename);
         return WEB_CACHE_PATH . $filename;
-    }
+    }//end method createProfile
     
     /**
      *
      */
     public static function getGraphMetadata($start_mile, $end_mile) {
         
-        $is_reverse = $start_mile > $end_mile;
+        $is_reverse = ($start_mile > $end_mile);
         
-        $scale_start_mile = $start_mile;
-        $scale_end_mile = $end_mile;
-        
-        $scale_start = $start_mile;
-        $scale_end = $end_mile;
-        
-        if($is_reverse) {
+        if(!$is_reverse) {
+            
+            return array(
+                'absolute_start_mile' => $start_mile,
+                'absolute_end_mile' => $end_mile,
+                'relative_start_mile' => $start_mile,
+                'relative_end_mile' => $end_mile);
+        } else {
             $total_distance = round(Coordinates::getRouteDistance(),1);
             
-            $scale_start = $end_mile;
-            $scale_end = $start_mile;
+            return array(
+                'absolute_start_mile' => $start_mile,
+                'absolute_end_mile' => $end_mile,
+                'relative_start_mile' => $total_distance - $start_mile,
+                'relative_end_mile' => $total_distance - $end_mile);
             
-            $scale_start_mile = $total_distance - $start_mile;
-            $scale_end_mile = $total_distance - $end_mile;
         }
-        
-        return array(
-            'absolute_start_mile' => $scale_start,
-            'absolute_end_mile' => $scale_end,
-            'relative_start_mile' => $scale_start_mile,
-            'relative_end_mile' => $scale_end_mile
-        );
     }
     
 }
