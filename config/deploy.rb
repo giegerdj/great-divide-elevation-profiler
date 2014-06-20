@@ -26,7 +26,7 @@ after "deploy:setup", "greatdivide:setup"
 namespace :greatdivide do
     desc "Setup symlinks for the application"
     task :create_symlinks, :roles => :app do
-        run "ln -nfs #{shared_path}/app/cache #{release_path}/app/cache"
+        run "ln -nfs #{shared_path}/app/cache/ #{release_path}/app/cache/"
         run "ln -nfs #{shared_path}/www/resources/cache/ #{release_path}/www/resources/cache/"
         run "ln -nfs #{shared_path}/app/config/config-strings.php #{release_path}/app/config/config-strings.php"
 
@@ -52,7 +52,7 @@ define('SECRET_KEY', '#{app_secret_key}');
 define('DEBUG', #{app_debug});
 define('PROFILE_CACHE_KEY', '#{app_cache_key}');
 EOF
-
+        run "mkdir -p #{shared_path}/app/config/"
         put db_config.result, "#{shared_path}/app/config/config-strings.php"
 
         run "mkdir -p #{shared_path}/www/resources/cache"

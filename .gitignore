@@ -1,3 +1,5 @@
 /app/config/config-strings.php
 /www/resources/cache/*
+!/www/resources/cache/.empty
 /app/cache/*
+!/app/cache/.empty
