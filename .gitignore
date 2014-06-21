@@ -1,5 +1,5 @@
-/app/config/config.php
+/app/config/config-strings.php
 /www/resources/cache/*
-!/www/resources/cache/index.html
+!/www/resources/cache/.empty
 /app/cache/*
 !/app/cache/.empty
