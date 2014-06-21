@@ -16,7 +16,7 @@ set :ssh_options, {
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
-set :copy_exclude, [".git/", "Capfile", "config/"]
+set :copy_exclude, [".git/", ".gitignore", "/Capfile", "/config/"]
 set :shared_children, %w()
 
 
