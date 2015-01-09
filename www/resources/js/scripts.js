@@ -9,11 +9,14 @@ $(document).ready(function(){
   $('#stat-container .toggle, #profile-container .toggle').click(function(e){
     e.preventDefault();
     var parent = $(this).parent();
+    var area = (parent.attr('id') == 'stat-container') ? 'Stats' : 'Profile Image'; 
     
     if( $(this).find('i').hasClass('icon-chevron-down') ) {
       $(this).find('i').removeClass('icon-chevron-down').addClass('icon-chevron-up');
+      _gaq.push(['_trackEvent', 'Control', 'Toggle ' + area, 'Open']);
     } else {
       $(this).find('i').removeClass('icon-chevron-up').addClass('icon-chevron-down');
+      _gaq.push(['_trackEvent', 'Control', 'Toggle ' + area, 'Down']);
     }
     
     if( parent.hasClass('toggle-closed') ) {

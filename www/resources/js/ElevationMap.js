@@ -40,6 +40,8 @@ ElevationMap.prototype.toggleDirection = function() {
   this.start_marker.setPosition(b_pos);
   this.end_marker.setPosition(a_pos);
   
+  _gaq.push(['_trackEvent', 'Control', 'Toggle Direction']);
+  
   this.dragEnd();
 };
 
@@ -107,10 +109,12 @@ ElevationMap.prototype.finalizeMap = function() {
   this.end_snap = new SnapToRoute(this.map, this.end_marker, this.route_polyline);
   
   google.maps.event.addListener(this.end_marker, "dragend", function(e){
+    _gaq.push(['_trackEvent', 'Map', 'Drag Marker', 'End']);
     me.dragEnd();
   });
   
   google.maps.event.addListener(this.start_marker, "dragend", function(e){
+    _gaq.push(['_trackEvent', 'Map', 'Drag Marker', 'Start']);
     me.dragEnd();
   });
   
